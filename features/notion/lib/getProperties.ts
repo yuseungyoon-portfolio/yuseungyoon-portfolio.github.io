@@ -18,6 +18,12 @@ function toPlainText(property: Properties[keyof Properties], fallback: string) {
       return property.url ?? "";
     case "multi_select":
       return property.multi_select.map((option) => option.name);
+    case "date": {
+      if (!property.date) return "";
+      const format = (d: string) => d.replaceAll("-", "/");
+      const { start, end } = property.date;
+      return end ? `${format(start)} ~ ${format(end)}` : format(start);
+    }
   }
 }
 

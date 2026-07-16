@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "0 15 * * *" # 매일 00:00 KST (UTC 15:00)
 
 permissions:
   contents: read

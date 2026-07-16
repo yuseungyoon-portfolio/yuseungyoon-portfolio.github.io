@@ -59,7 +59,7 @@ async function fetchPList(key: string, database_id: string): Promise<NotionPageM
   try {
     const response = await client.dataSources.query({
       data_source_id,
-      sorts: [{ property: "순서", direction: "ascending" }],
+      sorts: [{ property: "기간", direction: "descending" }],
     });
     return response.results as NotionPageMeta[];
   } catch (err) {

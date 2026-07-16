@@ -9,7 +9,7 @@ type Property<T extends PropertyTypes> = Extract<
 type PageProperties = {
   제목: Property<"title">;
   요약: Property<"rich_text">;
-  기간: Property<"rich_text">;
+  기간: Property<"date">;
   "배포 링크": Property<"url">;
   Github: Property<"url">;
   "러닝 포인트": Property<"multi_select">;
