@@ -21,7 +21,7 @@ export function meta(_: Route.MetaArgs) {
 
 export default function Home({ loaderData: description }: Route.ComponentProps) {
   const pList = useRouteLoaderData<typeof rootLoader>("root");
-  const lastUpdated = pList?.sort((a, b) => {
+  const lastUpdated = pList?.toSorted((a, b) => {
     return (
       new Date(b.last_edited_time).getTime() -
       new Date(a.last_edited_time).getTime()
