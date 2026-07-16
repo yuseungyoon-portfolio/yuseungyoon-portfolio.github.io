@@ -51,21 +51,33 @@ const getDepthChildrenBlocks = async (
   );
 };
 
+const withRetry = async <T>(fn: () => Promise<T>, attempts = 3): Promise<T> => {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+      console.error(`NOTION FETCH RETRY (${i + 1}/${attempts})`, err);
+    }
+  }
+  throw lastErr;
+};
+
 async function fetchPList(key: string, database_id: string): Promise<NotionPageMeta[]> {
   const client = new Client({ auth: key });
-  const db = (await client.databases.retrieve({ database_id })) as DatabaseObjectResponse;
+  const db = (await withRetry(() =>
+    client.databases.retrieve({ database_id }),
+  )) as DatabaseObjectResponse;
   const data_source_id = db.data_sources[0]?.id ?? "";
 
-  try {
-    const response = await client.dataSources.query({
+  const response = await withRetry(() =>
+    client.dataSources.query({
       data_source_id,
       sorts: [{ property: "기간", direction: "descending" }],
-    });
-    return response.results as NotionPageMeta[];
-  } catch (err) {
-    console.error("\n", data_source_id, err, "\n", "PLIST FETCH ERROR");
-    return [];
-  }
+    }),
+  );
+  return response.results as NotionPageMeta[];
 }
 export const getPList = cache(fetchPList);
 
