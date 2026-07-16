@@ -56,7 +56,10 @@ async function fetchPList(key: string, database_id: string): Promise<NotionPageM
   const data_source_id = db.data_sources[0]?.id ?? "";
 
   try {
-    const response = await client.dataSources.query({ data_source_id });
+    const response = await client.dataSources.query({
+      data_source_id,
+      sorts: [{ property: "순서", direction: "ascending" }],
+    });
     return response.results as NotionPageMeta[];
   } catch (err) {
     console.error("\n", data_source_id, err, "\n", "PLIST FETCH ERROR");
