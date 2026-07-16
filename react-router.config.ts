@@ -9,6 +9,7 @@ const pList = await getPList(
 
 export default {
   appDirectory: "routes",
+  ssr: false,
   async prerender() {
     return ["/", ...pList.map((p) => `/p/${getPostSlug(p)}`)];
   },

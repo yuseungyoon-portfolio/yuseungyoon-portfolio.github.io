@@ -1,11 +1,10 @@
 import { css } from "@pigment-css/react";
 import { useEffect, useRef, useState } from "react";
-import { getPlainText } from "../../lib";
+import { getImgUrl, getPlainText } from "../../lib";
 import type { NotionComponentProps } from "../../model";
-import { useFreshImgUrl } from "./useFreshImgUrl";
 
 export function NotionImg({ block }: NotionComponentProps<"image">) {
-  const { imgUrl, refresh } = useFreshImgUrl(block);
+  const imgUrl = getImgUrl(block);
   const imgRef = useRef<HTMLImageElement>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -63,7 +62,6 @@ export function NotionImg({ block }: NotionComponentProps<"image">) {
           alt={caption}
           loading="lazy"
           onLoad={() => setLoaded(true)}
-          onError={() => refresh()}
         />
         {!loaded && <span aria-hidden>(...)</span>}
       </div>

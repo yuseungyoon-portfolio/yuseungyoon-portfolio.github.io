@@ -36,12 +36,6 @@ export async function loader(_: Route.LoaderArgs) {
   );
 }
 
-export function headers(_: Route.HeadersArgs) {
-  return {
-    "Cache-Control": "s-maxage=600, stale-while-revalidate=3600",
-  };
-}
-
 export function Layout({ children }: { children: React.ReactNode }) {
   const pList = useRouteLoaderData<NotionPageMeta[]>("root");
   const [navOpen, setNavOpen] = useState(false);

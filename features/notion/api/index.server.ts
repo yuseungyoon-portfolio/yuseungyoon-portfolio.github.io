@@ -72,12 +72,3 @@ async function postdata(key: string, post_id: string) {
   return await processBlock(rawBlocks);
 }
 export const getFullPost = cache(postdata);
-
-export async function getFreshImageUrl(key: string, block_id: string) {
-  const client = new Client({ auth: key });
-  const block = (await client.blocks.retrieve({ block_id })) as BlockObjectResponse;
-  if (block.type !== "image") return null;
-  return block.image.type === "file"
-    ? block.image.file.url
-    : block.image.external.url;
-}
