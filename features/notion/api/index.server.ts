@@ -3,6 +3,7 @@ import type {
   BlockObjectResponse,
   DatabaseObjectResponse,
   PartialBlockObjectResponse,
+  RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { cache } from "react";
 import type { NotionPageMeta } from "../model";
@@ -75,3 +76,13 @@ async function postdata(key: string, post_id: string) {
   return await processBlock(rawBlocks);
 }
 export const getFullPost = cache(postdata);
+
+async function fetchDbDescription(
+  key: string,
+  database_id: string,
+): Promise<RichTextItemResponse[]> {
+  const client = new Client({ auth: key });
+  const db = (await client.databases.retrieve({ database_id })) as DatabaseObjectResponse;
+  return db.description;
+}
+export const getDbDescription = cache(fetchDbDescription);
