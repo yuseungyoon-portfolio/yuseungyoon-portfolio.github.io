@@ -68,7 +68,7 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
       </section>
       <div
         className={css`
-          margin: 4rem 0 0 25%;
+          margin: 1.25rem 0 0 25%;
           line-height: 1.65;
           color: var(--color-text-muted);
 
