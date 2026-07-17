@@ -76,7 +76,6 @@ export function PList({
         className={css`
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
         `}
       >
         <PListGroup label="경력 프로젝트" posts={freelance} />
