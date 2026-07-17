@@ -7,7 +7,7 @@ const pList = (
 ).flat();
 
 export default {
-  appDirectory: "routes",
+  appDirectory: "app",
   ssr: false,
   async prerender() {
     return ["/", ...pList.map((p) => `/p/${getPostSlug(p)}`)];

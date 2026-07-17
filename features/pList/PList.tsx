@@ -1,8 +1,31 @@
 import { css } from "@pigment-css/react";
+import { Heading, Text } from "features/common";
 import { getPostSlug } from "features/notion/lib";
 import { getProperties } from "features/notion/lib/getProperties";
 import type { NotionPageMeta } from "features/notion/model";
 import { NavLink } from "react-router";
+
+function PListGroup({ label, posts }: { label: string; posts: NotionPageMeta[] }) {
+  return (
+    <>
+      <Heading
+        as="div"
+        className={css`
+          margin-top: 1.25rem;
+        `}
+      >
+        {label}
+      </Heading>
+      {posts.map((p) => (
+        <li key={p.id}>
+          <Text as={NavLink} to={`/p/${getPostSlug(p)}`}>
+            {getProperties(p)["제목"]}
+          </Text>
+        </li>
+      ))}
+    </>
+  );
+}
 
 export function PList({
   pList,
@@ -30,9 +53,14 @@ export function PList({
           &[data-open="true"] {
             display: block;
             position: fixed;
-            inset: 0;
+            inset: 0 0 auto 0;
+            width: 100%;
+            max-height: 100dvh;
             z-index: 10;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
             padding: 3.25rem 1.25rem 1rem;
             overflow-y: auto;
           }
@@ -40,17 +68,9 @@ export function PList({
       `}
     >
       <h1>
-        <NavLink
-          to="/"
-          className={css`
-            display: block;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            font-weight: 600;
-          `}
-        >
+        <Heading as={NavLink} to="/">
           유승윤 포트폴리오
-        </NavLink>
+        </Heading>
       </h1>
       <ul
         className={css`
@@ -59,62 +79,8 @@ export function PList({
           gap: 0.25rem;
         `}
       >
-        <div
-          className={css`
-            margin-top: 1.25rem;
-            display: block;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            font-weight: 600;
-          `}
-        >
-          경력 프로젝트
-        </div>
-        {freelance?.map((p) => {
-          const props = getProperties(p);
-          return (
-            <li key={p.id}>
-              <NavLink
-                to={`/p/${getPostSlug(p)}`}
-                className={css`
-                  display: block;
-                  font-size: 0.9rem;
-                  line-height: 1.65;
-                `}
-              >
-                {props["제목"]}
-              </NavLink>
-            </li>
-          );
-        })}
-        <div
-          className={css`
-            display: block;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            font-weight: 600;
-            margin-top: 1.25rem;
-          `}
-        >
-          개인/팀 프로젝트
-        </div>
-        {side?.map((p) => {
-          const props = getProperties(p);
-          return (
-            <li key={p.id}>
-              <NavLink
-                to={`/p/${getPostSlug(p)}`}
-                className={css`
-                  display: block;
-                  font-size: 0.9rem;
-                  line-height: 1.65;
-                `}
-              >
-                {props["제목"]}
-              </NavLink>
-            </li>
-          );
-        })}
+        <PListGroup label="경력 프로젝트" posts={freelance} />
+        <PListGroup label="개인/팀 프로젝트" posts={side} />
       </ul>
     </nav>
   );

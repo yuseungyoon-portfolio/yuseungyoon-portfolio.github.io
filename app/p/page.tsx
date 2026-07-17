@@ -8,6 +8,7 @@ import {
 import { getPostSlug } from "features/notion/lib/slugify";
 import type { TransformedNotionBlocks } from "features/notion/model";
 import { css } from "@pigment-css/react";
+import { Heading, Text, TextLink } from "features/common";
 
 export async function loader({
   params,
@@ -58,40 +59,18 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
           }
         `}
       >
-        <h1
+        <Heading
+          underline
           className={css`
             flex: 1;
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.65;
-            word-break: keep-all;
-            border-bottom: 1px solid var(--color-text);
           `}
         >
           {meta["제목"]}
-        </h1>
+        </Heading>
       </section>
-      <div
+      <Text
         className={css`
           margin: 1.25rem 0 0 25%;
-          line-height: 1.65;
-
-          & p {
-            word-break: keep-all;
-          }
-
-          & > div {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.375rem 1.25rem;
-          }
-
-          & a {
-            color: inherit;
-            text-decoration: underline;
-            text-decoration-thickness: 1px;
-            text-underline-offset: 0.2em;
-          }
 
           @media (width < 1024px) {
             margin-left: 0;
@@ -99,20 +78,26 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
         `}
       >
         {meta["요약"] && <p>{meta["요약"]}</p>}
-        <div>
+        <div
+          className={css`
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem 1.25rem;
+          `}
+        >
           {meta["기간"] && <span>{meta["기간"]}</span>}
           {meta["배포 링크"] && (
-            <a href={meta["배포 링크"]} target="_blank" rel="noreferrer">
+            <TextLink href={meta["배포 링크"]} target="_blank" rel="noreferrer">
               배포 링크
-            </a>
+            </TextLink>
           )}
           {meta["Github"] && (
-            <a href={meta["Github"]} target="_blank" rel="noreferrer">
+            <TextLink href={meta["Github"]} target="_blank" rel="noreferrer">
               GitHub
-            </a>
+            </TextLink>
           )}
         </div>
-      </div>
+      </Text>
       <RenderNotion blocks={blocks} />
     </article>
   );

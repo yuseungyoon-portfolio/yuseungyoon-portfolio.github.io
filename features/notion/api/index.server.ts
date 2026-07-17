@@ -84,7 +84,6 @@ async function fetchPList(
     }),
   );
 
-  // 프리랜스 프로젝트를 앞에, 사이드 프로젝트를 뒤에 두되 각 그룹은 기간 역순 유지
   const pList = response.results as NotionPageMeta[];
   const isFreelance = (p: NotionPageMeta) =>
     p.properties["구분"].multi_select.some(

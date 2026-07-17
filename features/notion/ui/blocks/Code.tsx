@@ -23,9 +23,7 @@ export function Code({ block }: NotionComponentProps<"code">) {
       .then((highlighted) => {
         if (!cancelled) setHtml(highlighted);
       })
-      .catch(() => {
-        // 지원하지 않는 언어는 하이라이트 없이 그대로 둔다
-      });
+      .catch(() => {});
     return () => {
       cancelled = true;
     };
@@ -62,7 +60,6 @@ export function Code({ block }: NotionComponentProps<"code">) {
     >
       <figcaption>{codeLang}</figcaption>
       {html ? (
-        // oxlint-disable-next-line no-danger -- shiki가 생성한 신뢰 가능한 HTML
         <div dangerouslySetInnerHTML={{ __html: html }} />
       ) : (
         <pre>

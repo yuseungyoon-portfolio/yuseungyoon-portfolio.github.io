@@ -24,7 +24,6 @@ registerProcessor(
       const buf = Buffer.from(await res.arrayBuffer());
       const filename = `${block.id}${extFromUrl(url)}`;
 
-      // dev에서는 public/, 빌드 시에는 이미 복사가 끝난 build/client/에도 기록
       const targets = ["public", path.join("build", "client")]
         .map((dir) => path.join(process.cwd(), dir))
         .filter((dir) => existsSync(dir));

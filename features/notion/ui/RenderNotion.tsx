@@ -27,7 +27,6 @@ export function RenderNotion({
           line-height: 1.65;
         }
 
-        /* 세로 그리드 1줄 = 0.9rem * 1.65 = 1.485rem */
         & h2 {
           margin: 2.97rem 0 1.485rem;
           border-bottom: 1px solid var(--color-text);

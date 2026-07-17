@@ -1,5 +1,6 @@
 import type { Route } from "./+types/page";
 import { css } from "@pigment-css/react";
+import { Heading, Text } from "features/common";
 import { getDbDescription } from "features/notion/api/index.server";
 import { RichText } from "features/notion/ui/richText/RichText";
 import { useRouteLoaderData } from "react-router";
@@ -45,23 +46,10 @@ export default function Home({
 
   return (
     <div>
-      <h1
-        className={css`
-          display: block;
-          font-size: 0.9rem;
-          line-height: 1.65;
-          font-weight: 600;
-          border-bottom: 1px solid var(--color-text);
-        `}
-      >
-        유승윤
-      </h1>
-      <div
+      <Heading underline>유승윤</Heading>
+      <Text
         className={css`
           margin-top: 1.25rem;
-          font-size: 0.9rem;
-          line-height: 1.65;
-          word-break: keep-all;
           white-space: pre-line;
 
           & a {
@@ -82,7 +70,7 @@ export default function Home({
         >
           Last Updated at {lastUpdatedDateString}
         </div>
-      </div>
+      </Text>
     </div>
   );
 }
