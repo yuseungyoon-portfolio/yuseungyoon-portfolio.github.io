@@ -16,7 +16,8 @@ export async function loader({
     process.env.NOTION_KEY!,
     process.env.NOTION_DATABASE_ID!,
   );
-  const portfolio = pList.find((p) => getPostSlug(p) === params.slug);
+  const flatten = pList.flat();
+  const portfolio = flatten.find((p) => getPostSlug(p) === params.slug);
   if (!portfolio) throw new Response("Not Found", { status: 404 });
 
   return [
@@ -26,8 +27,8 @@ export async function loader({
 }
 
 export function meta({ params, matches }: Route.MetaArgs) {
-  const pList = matches[0].loaderData;
-  const portfolio = pList?.find((p) => getPostSlug(p) === params.slug);
+  const flatten = matches[0].loaderData.flat();
+  const portfolio = flatten?.find((p) => getPostSlug(p) === params.slug);
   if (!portfolio) return [];
 
   const properties = getProperties(portfolio);
@@ -52,19 +53,21 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
           align-items: center;
           justify-content: space-between;
 
-          & h1 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            line-height: 1.4;
-            word-break: keep-all;
-          }
-
           @media (width < 768px) {
             padding-right: 2.5rem;
           }
         `}
       >
-        <h1>{meta["제목"]}</h1>
+        <h1
+          className={css`
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.65;
+            word-break: keep-all;
+          `}
+        >
+          {meta["제목"]}
+        </h1>
       </section>
       <div
         className={css`
@@ -73,7 +76,6 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
           color: var(--color-text-muted);
 
           & p {
-            margin: 0 0 0.5rem;
             word-break: keep-all;
           }
 

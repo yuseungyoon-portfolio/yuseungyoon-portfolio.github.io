@@ -42,7 +42,10 @@ const getDepthChildrenBlocks = async (
     blocks.map(async (b) => {
       if (!b.has_children) return b;
       const children = await getChildrenBlocks(client, b.id);
-      const resolved = await getDepthChildrenBlocks(client, children as BlockObjectResponse[]);
+      const resolved = await getDepthChildrenBlocks(
+        client,
+        children as BlockObjectResponse[],
+      );
       const type = b.type;
       const content = (b as any)[type] ?? ((b as any)[type] = {});
       content.children = resolved;
@@ -64,7 +67,10 @@ const withRetry = async <T>(fn: () => Promise<T>, attempts = 3): Promise<T> => {
   throw lastErr;
 };
 
-async function fetchPList(key: string, database_id: string): Promise<NotionPageMeta[]> {
+async function fetchPList(
+  key: string,
+  database_id: string,
+): Promise<[NotionPageMeta[], NotionPageMeta[]]> {
   const client = new Client({ auth: key });
   const db = (await withRetry(() =>
     client.databases.retrieve({ database_id }),
@@ -81,15 +87,20 @@ async function fetchPList(key: string, database_id: string): Promise<NotionPageM
   // 프리랜스 프로젝트를 앞에, 사이드 프로젝트를 뒤에 두되 각 그룹은 기간 역순 유지
   const pList = response.results as NotionPageMeta[];
   const isFreelance = (p: NotionPageMeta) =>
-    p.properties["구분"].multi_select.some((option) => option.name === "프리랜스");
-  return [...pList.filter(isFreelance), ...pList.filter((p) => !isFreelance(p))];
+    p.properties["구분"].multi_select.some(
+      (option) => option.name === "프리랜스",
+    );
+  return [pList.filter(isFreelance), pList.filter((p) => !isFreelance(p))];
 }
 export const getPList = cache(fetchPList);
 
 async function postdata(key: string, post_id: string) {
   const client = new Client({ auth: key });
   const blocks = await getChildrenBlocks(client, post_id);
-  const rawBlocks = await getDepthChildrenBlocks(client, blocks as BlockObjectResponse[]);
+  const rawBlocks = await getDepthChildrenBlocks(
+    client,
+    blocks as BlockObjectResponse[],
+  );
   return await processBlock(rawBlocks);
 }
 export const getFullPost = cache(postdata);
@@ -99,7 +110,9 @@ async function fetchDbDescription(
   database_id: string,
 ): Promise<RichTextItemResponse[]> {
   const client = new Client({ auth: key });
-  const db = (await client.databases.retrieve({ database_id })) as DatabaseObjectResponse;
+  const db = (await client.databases.retrieve({
+    database_id,
+  })) as DatabaseObjectResponse;
   return db.description;
 }
 export const getDbDescription = cache(fetchDbDescription);

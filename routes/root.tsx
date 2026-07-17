@@ -37,7 +37,8 @@ export async function loader(_: Route.LoaderArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const pList = useRouteLoaderData<NotionPageMeta[]>("root");
+  const pList =
+    useRouteLoaderData<[NotionPageMeta[], NotionPageMeta[]]>("root");
   const [navOpen, setNavOpen] = useState(false);
   return (
     <html lang="ko">
@@ -95,7 +96,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           `}
         >
           <PList
-            pList={pList ?? []}
+            pList={pList ?? [[], []]}
             open={navOpen}
             onNavigate={() => setNavOpen(false)}
           />

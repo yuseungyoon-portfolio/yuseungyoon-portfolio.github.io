@@ -9,10 +9,11 @@ export function PList({
   open,
   onNavigate,
 }: {
-  pList: NotionPageMeta[];
+  pList: [NotionPageMeta[], NotionPageMeta[]];
   open: boolean;
   onNavigate: () => void;
 }) {
+  const [freelance, side] = pList;
   return (
     <nav
       data-open={open}
@@ -44,7 +45,7 @@ export function PList({
           className={css`
             display: block;
             font-size: 0.9rem;
-            line-height: 1.4;
+            line-height: 1.65;
             font-weight: 600;
           `}
         >
@@ -53,13 +54,23 @@ export function PList({
       </h1>
       <ul
         className={css`
-          margin-top: 1rem;
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
         `}
       >
-        {pList?.map((p) => {
+        <div
+          className={css`
+            margin-top: 1.25rem;
+            display: block;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            font-weight: 600;
+          `}
+        >
+          경력 프로젝트
+        </div>
+        {freelance?.map((p) => {
           const props = getProperties(p);
           return (
             <li key={p.id}>
@@ -68,7 +79,35 @@ export function PList({
                 className={css`
                   display: block;
                   font-size: 0.9rem;
-                  line-height: 1.4;
+                  line-height: 1.65;
+                `}
+              >
+                {props["제목"]}
+              </NavLink>
+            </li>
+          );
+        })}
+        <div
+          className={css`
+            display: block;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            font-weight: 600;
+            margin-top: 1.25rem;
+          `}
+        >
+          개인/팀 프로젝트
+        </div>
+        {side?.map((p) => {
+          const props = getProperties(p);
+          return (
+            <li key={p.id}>
+              <NavLink
+                to={`/p/${getPostSlug(p)}`}
+                className={css`
+                  display: block;
+                  font-size: 0.9rem;
+                  line-height: 1.65;
                 `}
               >
                 {props["제목"]}

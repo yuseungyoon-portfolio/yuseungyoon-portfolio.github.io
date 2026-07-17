@@ -2,7 +2,11 @@ import { css } from "@pigment-css/react";
 import type { TransformedNotionBlocks } from "../model";
 import { Block } from "./Block";
 
-export function RenderNotion({ blocks }: { blocks: TransformedNotionBlocks[] }) {
+export function RenderNotion({
+  blocks,
+}: {
+  blocks: TransformedNotionBlocks[];
+}) {
   return (
     <article
       className={css`
@@ -20,7 +24,7 @@ export function RenderNotion({ blocks }: { blocks: TransformedNotionBlocks[] }) 
         & h4 {
           font-size: 0.9rem;
           font-weight: 600;
-          line-height: 1.4;
+          line-height: 1.65;
         }
 
         & h2 {
