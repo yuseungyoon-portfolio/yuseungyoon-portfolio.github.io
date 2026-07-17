@@ -60,10 +60,12 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
       >
         <h1
           className={css`
+            flex: 1;
             font-size: 0.9rem;
             font-weight: 600;
             line-height: 1.65;
             word-break: keep-all;
+            border-bottom: 1px solid var(--color-text);
           `}
         >
           {meta["제목"]}
@@ -73,7 +75,6 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
         className={css`
           margin: 1.25rem 0 0 25%;
           line-height: 1.65;
-          color: var(--color-text-muted);
 
           & p {
             word-break: keep-all;

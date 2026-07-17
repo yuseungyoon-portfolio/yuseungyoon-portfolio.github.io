@@ -51,6 +51,7 @@ export default function Home({
           font-size: 0.9rem;
           line-height: 1.65;
           font-weight: 600;
+          border-bottom: 1px solid var(--color-text);
         `}
       >
         유승윤

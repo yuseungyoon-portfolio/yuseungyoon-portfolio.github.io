@@ -27,18 +27,18 @@ export function RenderNotion({
           line-height: 1.65;
         }
 
+        /* 세로 그리드 1줄 = 0.9rem * 1.65 = 1.485rem */
         & h2 {
-          margin: 3.5rem 0 1.25rem;
-          padding-bottom: 0.375rem;
+          margin: 2.97rem 0 1.485rem;
           border-bottom: 1px solid var(--color-text);
         }
 
         & h3 {
-          margin: 1.75rem 0 0.5rem;
+          margin: 1.485rem 0 0.7425rem;
         }
 
         & h4 {
-          margin: 1.5rem 0 0.5rem;
+          margin: 1.485rem 0 0.7425rem;
         }
 
         & strong {
