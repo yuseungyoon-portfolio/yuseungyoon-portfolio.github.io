@@ -63,7 +63,7 @@ export function NotionImg({ block }: NotionComponentProps<"image">) {
           loading="lazy"
           onLoad={() => setLoaded(true)}
         />
-        {!loaded && <span aria-hidden>(...)</span>}
+        {!loaded && <span aria-hidden>+_+</span>}
       </div>
       {block.image.caption.length > 0 && <figcaption>{caption}</figcaption>}
     </figure>
