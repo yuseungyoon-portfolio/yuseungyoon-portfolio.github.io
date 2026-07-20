@@ -77,7 +77,6 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
           }
         `}
       >
-        {meta["요약"] && <p>{meta["요약"]}</p>}
         <div
           className={css`
             display: flex;
@@ -97,6 +96,8 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
             </TextLink>
           )}
         </div>
+        {meta["역할"] && <p>{meta["역할"]}</p>}
+        {meta["요약"] && <p>{meta["요약"]}</p>}
       </Text>
       <RenderNotion blocks={blocks} />
     </article>
