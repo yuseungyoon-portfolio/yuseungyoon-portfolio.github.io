@@ -96,8 +96,16 @@ export default function ProjectPage({ loaderData }: Route.ComponentProps) {
             </TextLink>
           )}
         </div>
-        {meta["역할"] && <p>{meta["역할"]}</p>}
-        {meta["요약"] && <p>{meta["요약"]}</p>}
+        {meta["역할"] && (
+          <p>
+            <strong>역할</strong> {meta["역할"]}
+          </p>
+        )}
+        {meta["요약"] && (
+          <p>
+            <strong>요약</strong> {meta["요약"]}
+          </p>
+        )}
       </Text>
       <RenderNotion blocks={blocks} />
     </article>
