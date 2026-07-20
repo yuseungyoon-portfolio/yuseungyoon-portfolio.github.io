@@ -29,7 +29,11 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - run: bun run build
+      - uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: bun run build
         env:
           NOTION_KEY: ${{ secrets.NOTION_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
