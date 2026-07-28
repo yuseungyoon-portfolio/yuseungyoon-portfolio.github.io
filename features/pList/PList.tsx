@@ -9,20 +9,27 @@ function PListGroup({ label, posts }: { label: string; posts: NotionPageMeta[] }
   return (
     <>
       <Heading
-        as="div"
+        as="h2"
         className={css`
           margin-top: 1.25rem;
         `}
       >
         {label}
       </Heading>
-      {posts.map((p) => (
-        <li key={p.id}>
-          <Text as={NavLink} to={`/p/${getPostSlug(p)}`}>
-            {getProperties(p)["제목"]}
-          </Text>
-        </li>
-      ))}
+      <ul
+        className={css`
+          display: flex;
+          flex-direction: column;
+        `}
+      >
+        {posts.map((p) => (
+          <li key={p.id}>
+            <Text as={NavLink} to={`/p/${getPostSlug(p)}`}>
+              {getProperties(p)["제목"]}
+            </Text>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
@@ -67,20 +74,11 @@ export function PList({
         }
       `}
     >
-      <h1>
-        <Heading as={NavLink} to="/">
-          유승윤 포트폴리오
-        </Heading>
-      </h1>
-      <ul
-        className={css`
-          display: flex;
-          flex-direction: column;
-        `}
-      >
-        <PListGroup label="경력 프로젝트" posts={freelance} />
-        <PListGroup label="개인/팀 프로젝트" posts={side} />
-      </ul>
+      <Heading as={NavLink} to="/">
+        유승윤 포트폴리오
+      </Heading>
+      <PListGroup label="경력 프로젝트" posts={freelance} />
+      <PListGroup label="개인/팀 프로젝트" posts={side} />
     </nav>
   );
 }

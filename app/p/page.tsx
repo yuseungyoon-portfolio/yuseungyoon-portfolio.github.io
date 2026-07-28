@@ -33,9 +33,30 @@ export function meta({ params, matches }: Route.MetaArgs) {
   if (!portfolio) return [];
 
   const properties = getProperties(portfolio);
+  const sameAs = [properties["배포 링크"], properties["Github"]].filter(Boolean);
+  const startDate = portfolio.properties["기간"].date?.start;
   return [
     { title: properties["제목"] },
     { name: "description", content: properties["요약"] },
+    {
+      "script:ld+json": {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        name: properties["제목"],
+        description: properties["요약"],
+        url: `https://portfolio.seungyoon-yu.com/p/${encodeURIComponent(params.slug!)}`,
+        author: {
+          "@type": "Person",
+          name: "유승윤",
+          ...(properties["역할"] && { jobTitle: properties["역할"] }),
+        },
+        ...(properties["러닝 포인트"].length && {
+          keywords: properties["러닝 포인트"],
+        }),
+        ...(sameAs.length && { sameAs }),
+        ...(startDate && { dateCreated: startDate }),
+      },
+    },
   ];
 }
 

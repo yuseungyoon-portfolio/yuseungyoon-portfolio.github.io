@@ -2,6 +2,7 @@ import type { Route } from "./+types/page";
 import { css } from "@pigment-css/react";
 import { Heading, Text } from "features/common";
 import { getDbDescription } from "features/notion/api/index.server";
+import { getPlainText } from "features/notion/lib/getPlainText";
 import { RichText } from "features/notion/ui/richText/RichText";
 import { useRouteLoaderData } from "react-router";
 import type { loader as rootLoader } from "./root";
@@ -13,10 +14,22 @@ export async function loader(_: Route.LoaderArgs) {
   );
 }
 
-export function meta(_: Route.MetaArgs) {
+export function meta({ loaderData }: Route.MetaArgs) {
+  const description = loaderData
+    ? getPlainText(loaderData).replaceAll("\n", " ")
+    : "유승윤 포트폴리오";
   return [
     { title: "유승윤 - 포트폴리오" },
-    { name: "description", content: "유승윤 포트폴리오" },
+    { name: "description", content: description },
+    {
+      "script:ld+json": {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "유승윤",
+        url: "https://portfolio.seungyoon-yu.com/",
+        description,
+      },
+    },
   ];
 }
 

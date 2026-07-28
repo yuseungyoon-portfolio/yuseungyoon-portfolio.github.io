@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build && bun scripts/decodePrerenderPaths.ts",
+    "build": "react-router build && bun scripts/decodePrerenderPaths.ts && bun scripts/generateSiteIndex.ts",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@pigment-css/vite-plugin": "^0.0.31",
     "@react-router/dev": "8.0.0",
+    "@types/bun": "^1.3.14",
     "@types/node": "^22",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
