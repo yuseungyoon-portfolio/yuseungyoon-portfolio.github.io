@@ -38,20 +38,18 @@ const getDepthChildrenBlocks = async (
   client: Client,
   blocks: BlockObjectResponse[],
 ): Promise<BlockObjectResponse[]> => {
-  return await Promise.all(
-    blocks.map(async (b) => {
-      if (!b.has_children) return b;
-      const children = await getChildrenBlocks(client, b.id);
-      const resolved = await getDepthChildrenBlocks(
-        client,
-        children as BlockObjectResponse[],
-      );
-      const type = b.type;
-      const content = (b as any)[type] ?? ((b as any)[type] = {});
-      content.children = resolved;
-      return b;
-    }),
-  );
+  for (const b of blocks) {
+    if (!b.has_children) continue;
+    const children = await getChildrenBlocks(client, b.id);
+    const resolved = await getDepthChildrenBlocks(
+      client,
+      children as BlockObjectResponse[],
+    );
+    const type = b.type;
+    const content = (b as any)[type] ?? ((b as any)[type] = {});
+    content.children = resolved;
+  }
+  return blocks;
 };
 
 const withRetry = async <T>(fn: () => Promise<T>, attempts = 3): Promise<T> => {
