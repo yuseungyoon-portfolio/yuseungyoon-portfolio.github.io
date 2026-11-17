@@ -6,3 +6,4 @@
 /.react-router/
 /build/
 /public/notion-img/
+/.notion-cache/

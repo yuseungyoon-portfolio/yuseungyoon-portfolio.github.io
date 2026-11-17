@@ -1,10 +1,7 @@
 import { getFullPost, getPList } from "features/notion/api/index.server";
 import type { Route } from "./+types/page";
 import { RenderNotion } from "features/notion/ui";
-import {
-  getProperties,
-  type PlainProperties,
-} from "features/notion/lib/getProperties";
+import { getProperties, type PlainProperties } from "features/notion/lib/getProperties";
 import { getPostSlug } from "features/notion/lib/slugify";
 import type { TransformedNotionBlocks } from "features/notion/model";
 import { css } from "@pigment-css/react";
@@ -13,18 +10,12 @@ import { Heading, Text, TextLink } from "features/common";
 export async function loader({
   params,
 }: Route.LoaderArgs): Promise<[PlainProperties, TransformedNotionBlocks[]]> {
-  const pList = await getPList(
-    process.env.NOTION_KEY!,
-    process.env.NOTION_DATABASE_ID!,
-  );
+  const pList = await getPList();
   const flatten = pList.flat();
   const portfolio = flatten.find((p) => getPostSlug(p) === params.slug);
   if (!portfolio) throw new Response("Not Found", { status: 404 });
 
-  return [
-    getProperties(portfolio),
-    await getFullPost(process.env.NOTION_KEY!, portfolio.id),
-  ];
+  return [getProperties(portfolio), await getFullPost(portfolio.id)];
 }
 
 export function meta({ params, matches }: Route.MetaArgs) {

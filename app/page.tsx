@@ -8,10 +8,7 @@ import { useRouteLoaderData } from "react-router";
 import type { loader as rootLoader } from "./root";
 
 export async function loader(_: Route.LoaderArgs) {
-  return await getDbDescription(
-    process.env.NOTION_KEY!,
-    process.env.NOTION_DATABASE_ID!,
-  );
+  return await getDbDescription();
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -33,18 +30,13 @@ export function meta({ loaderData }: Route.MetaArgs) {
   ];
 }
 
-export default function Home({
-  loaderData: description,
-}: Route.ComponentProps) {
+export default function Home({ loaderData: description }: Route.ComponentProps) {
   const pList = useRouteLoaderData<typeof rootLoader>("root");
   const flatten = pList?.flat();
   const lastUpdated =
     flatten &&
     flatten.sort((a, b) => {
-      return (
-        new Date(b.last_edited_time).getTime() -
-        new Date(a.last_edited_time).getTime()
-      );
+      return new Date(b.last_edited_time).getTime() - new Date(a.last_edited_time).getTime();
     })[0]?.last_edited_time;
   const lastUpdatedDate = new Date(lastUpdated ?? 0);
   const lastUpdatedDateString = lastUpdatedDate

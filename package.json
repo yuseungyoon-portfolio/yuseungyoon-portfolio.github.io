@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build && bun scripts/decodePrerenderPaths.ts && bun scripts/generateSiteIndex.ts",
-    "dev": "react-router dev",
+    "notion:fetch": "bun scripts/fetchNotion.ts",
+    "build": "bun scripts/fetchNotion.ts && react-router build && bun scripts/decodePrerenderPaths.ts && bun scripts/generateSiteIndex.ts",
+    "dev": "bun scripts/fetchNotion.ts --if-missing && react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "oxlint",

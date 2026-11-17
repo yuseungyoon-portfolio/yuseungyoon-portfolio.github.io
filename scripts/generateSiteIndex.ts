@@ -1,6 +1,6 @@
 // 빌드 결과물에 llms.txt와 sitemap.xml을 생성한다.
 // 내용이 Notion에서 오고 매일 재빌드되므로 public/에 정적 파일로 두지 않고
-// 프리렌더와 동일한 소스(getPList, getDbDescription)에서 매 빌드마다 새로 만든다.
+// 프리렌더와 동일한 소스(Notion 스냅샷)에서 매 빌드마다 새로 만든다.
 import { getDbDescription, getPList } from "../features/notion/api/index.server";
 import { getPlainText } from "../features/notion/lib/getPlainText";
 import { getProperties } from "../features/notion/lib/getProperties";
@@ -11,11 +11,8 @@ const outDir = `${process.cwd()}/build/client`;
 const domain = (await Bun.file(`${outDir}/CNAME`).text()).trim();
 const origin = `https://${domain}`;
 
-const key = process.env.NOTION_KEY!;
-const databaseId = process.env.NOTION_DATABASE_ID!;
-
-const [freelance, side] = await getPList(key, databaseId);
-const description = getPlainText(await getDbDescription(key, databaseId));
+const [freelance, side] = await getPList();
+const description = getPlainText(await getDbDescription());
 
 const postUrl = (p: NotionPageMeta) => `${origin}/p/${encodeURIComponent(getPostSlug(p))}`;
 
