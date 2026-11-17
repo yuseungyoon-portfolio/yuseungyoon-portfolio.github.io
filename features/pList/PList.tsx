@@ -1,37 +1,36 @@
-import { css } from "@pigment-css/react";
-import { Heading, Text } from "features/common";
-import { getPostSlug } from "features/notion/lib";
-import { getProperties } from "features/notion/lib/getProperties";
-import type { NotionPageMeta } from "features/notion/model";
-import { NavLink } from "react-router";
+import { css } from '@pigment-css/react'
+import { Heading, Text } from 'features/common'
+import { getPostSlug } from 'features/notion/lib'
+import { getProperties } from 'features/notion/lib/getProperties'
+import type { NotionPageMeta } from 'features/notion/model'
+import { NavLink } from 'react-router'
 
 function PListGroup({ label, posts }: { label: string; posts: NotionPageMeta[] }) {
+  if (!posts || !posts.length) return
   return (
     <>
       <Heading
         as="h2"
         className={css`
           margin-top: 1.25rem;
-        `}
-      >
+        `}>
         {label}
       </Heading>
       <ul
         className={css`
           display: flex;
           flex-direction: column;
-        `}
-      >
-        {posts.map((p) => (
+        `}>
+        {posts.map(p => (
           <li key={p.id}>
             <Text as={NavLink} to={`/p/${getPostSlug(p)}`}>
-              {getProperties(p)["제목"]}
+              {getProperties(p)['제목']}
             </Text>
           </li>
         ))}
       </ul>
     </>
-  );
+  )
 }
 
 export function PList({
@@ -39,11 +38,11 @@ export function PList({
   open,
   onNavigate,
 }: {
-  pList: [NotionPageMeta[], NotionPageMeta[]];
-  open: boolean;
-  onNavigate: () => void;
+  pList: [NotionPageMeta[], NotionPageMeta[], NotionPageMeta[]]
+  open: boolean
+  onNavigate: () => void
 }) {
-  const [freelance, side] = pList;
+  const [comp, freelance, side] = pList
   return (
     <nav
       data-open={open}
@@ -57,7 +56,7 @@ export function PList({
         @media (width < 768px) {
           display: none;
 
-          &[data-open="true"] {
+          &[data-open='true'] {
             display: block;
             position: fixed;
             inset: 0 0 auto 0;
@@ -72,13 +71,13 @@ export function PList({
             overflow-y: auto;
           }
         }
-      `}
-    >
+      `}>
       <Heading as={NavLink} to="/">
         유승윤 포트폴리오
       </Heading>
-      <PListGroup label="경력 프로젝트" posts={freelance} />
-      <PListGroup label="개인/팀 프로젝트" posts={side} />
+      <PListGroup label="정규 경력" posts={comp} />
+      <PListGroup label="외주/프리랜스" posts={freelance} />
+      <PListGroup label="사이드" posts={side} />
     </nav>
-  );
+  )
 }

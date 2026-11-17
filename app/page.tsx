@@ -1,53 +1,51 @@
-import type { Route } from "./+types/page";
-import { css } from "@pigment-css/react";
-import { Heading, Text } from "features/common";
-import { getDbDescription } from "features/notion/api/index.server";
-import { getPlainText } from "features/notion/lib/getPlainText";
-import { RichText } from "features/notion/ui/richText/RichText";
-import { useRouteLoaderData } from "react-router";
-import type { loader as rootLoader } from "./root";
+import type { Route } from './+types/page'
+import { css } from '@pigment-css/react'
+import { Heading, Text } from 'features/common'
+import { getDbDescription } from 'features/notion/api/index.server'
+import { getPlainText } from 'features/notion/lib/getPlainText'
+import { RichText } from 'features/notion/ui/richText/RichText'
+import { useRouteLoaderData } from 'react-router'
+import type { loader as rootLoader } from './root'
 
 export async function loader(_: Route.LoaderArgs) {
-  return await getDbDescription();
+  return await getDbDescription()
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
-  const description = loaderData
-    ? getPlainText(loaderData).replaceAll("\n", " ")
-    : "유승윤 포트폴리오";
+  const description = loaderData ? getPlainText(loaderData).replaceAll('\n', ' ') : '유승윤 포트폴리오'
   return [
-    { title: "유승윤 - 포트폴리오" },
-    { name: "description", content: description },
+    { title: '유승윤 - 포트폴리오' },
+    { name: 'description', content: description },
     {
-      "script:ld+json": {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: "유승윤",
-        url: "https://portfolio.seungyoon-yu.com/",
+      'script:ld+json': {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: '유승윤',
+        url: 'https://portfolio.seungyoon-yu.com/',
         description,
       },
     },
-  ];
+  ]
 }
 
 export default function Home({ loaderData: description }: Route.ComponentProps) {
-  const pList = useRouteLoaderData<typeof rootLoader>("root");
-  const flatten = pList?.flat();
+  const pList = useRouteLoaderData<typeof rootLoader>('root')
+  const flatten = pList?.flat()
   const lastUpdated =
     flatten &&
     flatten.sort((a, b) => {
-      return new Date(b.last_edited_time).getTime() - new Date(a.last_edited_time).getTime();
-    })[0]?.last_edited_time;
-  const lastUpdatedDate = new Date(lastUpdated ?? 0);
+      return new Date(b.last_edited_time).getTime() - new Date(a.last_edited_time).getTime()
+    })[0]?.last_edited_time
+  const lastUpdatedDate = new Date(lastUpdated ?? 0)
   const lastUpdatedDateString = lastUpdatedDate
-    .toLocaleDateString("ko-KR", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
+    .toLocaleDateString('ko-KR', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
     })
     .slice(0, -1)
-    .split(". ")
-    .join("");
+    .split('. ')
+    .join('')
 
   return (
     <div>
@@ -63,19 +61,17 @@ export default function Home({ loaderData: description }: Route.ComponentProps) 
             text-decoration-thickness: 1px;
             text-underline-offset: 0.2em;
           }
-        `}
-      >
+        `}>
         {description.map((txt, idx) => (
           <RichText key={`${txt.type}${idx}`} richText={txt} />
         ))}
         <div
           className={css`
             margin-top: 1.25rem;
-          `}
-        >
+          `}>
           Last Updated at {lastUpdatedDateString}
         </div>
       </Text>
     </div>
-  );
+  )
 }
